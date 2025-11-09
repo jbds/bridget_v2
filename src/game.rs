@@ -37,14 +37,14 @@ pub fn create_new_game_data_structure() -> Game {
                 PACK_Q1..PACK_Q2 => Poc::East,
                 PACK_Q2..PACK_Q3 => Poc::South,
                 PACK_Q3..PACK_SIZE => Poc::West,
-                _ => panic!("Card enumerator is > 51"),
+                _ => panic!("Card enumerator is >= PACK_SIZE"),
             },
             suit: match x {
                 PACK_LO_U8..PACK_Q1_U8 => Suit::Club,
                 PACK_Q1_U8..PACK_Q2_U8 => Suit::Diamond,
                 PACK_Q2_U8..PACK_Q3_U8 => Suit::Heart,
                 PACK_Q3_U8..PACK_SIZE_U8 => Suit::Spade,
-                _ => panic!("Card value is > 51"),
+                _ => panic!("Card value is >= PACK_SIZE_U8"),
             },
             rank: match x % PACK_Q1_U8 {
                 0 => Rank::Two,
@@ -60,7 +60,7 @@ pub fn create_new_game_data_structure() -> Game {
                 10 => Rank::Queen,
                 11 => Rank::King,
                 12 => Rank::Ace,
-                _ => panic!("Card value is > 51"),
+                _ => panic!("Card rank is >= PACK_Q1_U8"),
             },
             discard: None,
         })
