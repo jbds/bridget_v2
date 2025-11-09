@@ -13,7 +13,7 @@ pub fn get_random_poc() -> Poc {
 }
 
 // impure
-pub fn get_pack_shuffled(arr: [u8; 52usize]) -> [u8; 52usize] {
+pub fn get_array_u8_shuffled(arr: [u8; 52usize]) -> [u8; 52usize] {
     let mut rng = rand::rng();
     let mut arr2 = arr.clone();
     arr2.shuffle(&mut rng);
@@ -21,13 +21,13 @@ pub fn get_pack_shuffled(arr: [u8; 52usize]) -> [u8; 52usize] {
 }
 
 // helper
-fn vec_to_array<T, const N: usize>(v: Vec<T>) -> [T; N] {
+pub fn vec_to_array<T, const N: usize>(v: Vec<T>) -> [T; N] {
     v.try_into()
         .unwrap_or_else(|v: Vec<T>| panic!("Expected a Vec of length {} but it was {}", N, v.len()))
 }
 
-pub fn get_pack_ordered() -> [u8; PACK_SIZE] {
-    let v: Vec<_> = (0..52u8).collect();
+pub fn get_array_u8_ordered() -> [u8; PACK_SIZE] {
+    let v: Vec<u8> = (0..52u8).collect();
     vec_to_array(v)
 }
 

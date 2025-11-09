@@ -5,7 +5,7 @@
 //! Rust arrays are fixed length so can model the pack optimally.
 
 use crate::game::create_new_game_data_structure;
-use crate::term_in_out::display_game_cmd_line;
+//use crate::term_in_out::display_game_cmd_line;
 
 pub mod constants;
 pub mod game;
@@ -15,5 +15,6 @@ pub mod types;
 
 pub fn run_game() {
     let game = create_new_game_data_structure();
-    display_game_cmd_line(&game);
+    println!("{:?}", game);
+    //display_game_cmd_line(&game);
 }
