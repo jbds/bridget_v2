@@ -21,7 +21,7 @@ pub fn create_new_game_data_structure() -> Game {
     let array_u8_ordered = get_array_u8_ordered();
     let array_u8_shuffled = get_array_u8_shuffled(array_u8_ordered);
     // for testing may not want shuffle
-    let array_u8_shuffled = array_u8_ordered;
+    //let array_u8_shuffled = array_u8_ordered;
     // can only use collect() here on a Vec, not an array
     let pack_state_as_vec: Vec<_> = array_u8_shuffled
         // iterate array by value

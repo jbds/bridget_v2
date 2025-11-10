@@ -81,26 +81,25 @@ pub struct CardState {
     pub discard: Discard,
 }
 
-// impl CardState {
-//     pub fn rank_as_str(&self) -> String {
-//         match self.value {
-//             51 | 38 | 25 | 12 => "A".to_string(),
-//             50 | 37 | 24 | 11 => "K".to_string(),
-//             49 | 36 | 23 | 10 => "Q".to_string(),
-//             48 | 35 | 22 | 9 => "J".to_string(),
-//             47 | 34 | 21 | 8 => "T".to_string(),
-//             46 | 33 | 20 | 7 => "9".to_string(),
-//             45 | 32 | 19 | 6 => "8".to_string(),
-//             44 | 31 | 18 | 5 => "7".to_string(),
-//             43 | 30 | 17 | 4 => "6".to_string(),
-//             42 | 29 | 16 | 3 => "5".to_string(),
-//             41 | 28 | 15 | 2 => "4".to_string(),
-//             40 | 27 | 14 | 1 => "3".to_string(),
-//             39 | 26 | 13 | 0 => "2".to_string(),
-//             _ => "?".to_string(),
-//         }
-//     }
-// }
+impl CardState {
+    pub fn rank_as_str(&self) -> String {
+        match self.rank {
+            Rank::Ace => "A".to_string(),
+            Rank::King => "K".to_string(),
+            Rank::Queen => "Q".to_string(),
+            Rank::Jack => "J".to_string(),
+            Rank::Ten => "T".to_string(),
+            Rank::Nine => "9".to_string(),
+            Rank::Eight => "8".to_string(),
+            Rank::Seven => "7".to_string(),
+            Rank::Six => "6".to_string(),
+            Rank::Five => "5".to_string(),
+            Rank::Four => "4".to_string(),
+            Rank::Three => "3".to_string(),
+            Rank::Two => "2".to_string(),
+        }
+    }
+}
 
 /// A deal consists of the state of the 52 cards dealt together with
 /// the list of bids made at the auction
