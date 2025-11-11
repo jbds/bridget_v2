@@ -22,9 +22,9 @@ pub fn display_game_cmd_line(g: &Game) {
     let deal_current = &g.deals.get(deal_index_max).unwrap().pack_state;
     let ranks_padded = get_card_ranks_as_string_array(deal_current);
     println!("{:?}", &ranks_padded);
-    println!("{}", &ranks_padded[0]);
+    //println!("{}", &ranks_padded[0]);
     // TO DO - create the virtual table on the terminal display
-    display_board();
+    display_board(ranks_padded);
 }
 
 // we want to return an array of 16 strings
@@ -55,20 +55,36 @@ fn get_card_ranks_as_string_array(arr: &[CardState; 52]) -> Vec<String> {
     v
 }
 
-fn display_board() {
+fn display_board(ranks: Vec<String>) {
     let mut lines: Vec<String> = Vec::new();
     let line0 = format!("{:*<65}", "");
     lines.push(line0);
-    let line1 = format!("{:*<34}", "") + "S AKQJT98765432" + &format!("{:*<16}", "");
+    let line1 = format!("{:*<34}", "") + "S " + &ranks[0] + &format!("{:*<16}", "");
     lines.push(line1);
-    let line2 = format!("{:*<34}", "") + "H AKQJT98765432" + &format!("{:*<16}", "");
+    let line2 = format!("{:*<34}", "") + "H " + &ranks[1] + &format!("{:*<16}", "");
     lines.push(line2);
-    let line3 = format!("{:*<34}", "") + "D AKQJT98765432" + &format!("{:*<16}", "");
+    let line3 = format!("{:*<34}", "") + "D " + &ranks[2] + &format!("{:*<16}", "");
     lines.push(line3);
-    let line4 = format!("{:*<34}", "") + "C AKQJT98765432" + &format!("{:*<16}", "");
+    let line4 = format!("{:*<34}", "") + "C " + &ranks[3] + &format!("{:*<16}", "");
     lines.push(line4);
+    let line5 = format!("{:*<65}", "");
+    lines.push(line5);
+    let line6 =
+        format!("{:*<18}", "") + "S " + &ranks[12] + &format!("{:*<16}", "") + " S " + &ranks[4];
+    lines.push(line6);
+    let line7 =
+        format!("{:*<18}", "") + "H " + &ranks[13] + &format!("{:*<16}", "") + " H " + &ranks[5];
+    lines.push(line7);
+    let line8 =
+        format!("{:*<18}", "") + "D " + &ranks[14] + &format!("{:*<16}", "") + " D " + &ranks[6];
+    lines.push(line8);
+    let line9 =
+        format!("{:*<18}", "") + "C " + &ranks[15] + &format!("{:*<16}", "") + " C " + &ranks[7];
+    lines.push(line9);
+    let line10 = format!("{:*<65}", "");
+    lines.push(line10);
 
-    for i in 0..5 {
+    for i in 0..11 {
         println!("{}", &lines[i]);
     }
 }
