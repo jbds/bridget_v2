@@ -3,6 +3,8 @@ use std::collections::HashMap;
 /// At start of game, we need to ask for and store the 4 player names
 pub type Player = String;
 
+pub type KeyboardString = String;
+
 /// track the order in which the cards are discarded
 pub type Discard = Option<u8>;
 

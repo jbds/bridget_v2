@@ -1,6 +1,6 @@
 use crate::constants::PACK_SIZE;
 use crate::term_in_out::read_msg;
-use crate::types::{Player, Poc};
+use crate::types::{Game, Player, Poc};
 use rand::prelude::SliceRandom;
 use std::collections::HashMap;
 
@@ -43,4 +43,32 @@ pub fn create_player_seating_plan() -> HashMap<Poc, Option<Player>> {
     seating_plan.insert(Poc::East, iter.next().map(|s| s.to_string()));
     seating_plan.insert(Poc::West, iter.next().map(|s| s.to_string()));
     seating_plan
+}
+
+pub fn init_player_seating_plan() -> HashMap<Poc, Option<Player>> {
+    let mut seating_plan = HashMap::new();
+    seating_plan.insert(Poc::North, None);
+    seating_plan.insert(Poc::South, None);
+    seating_plan.insert(Poc::East, None);
+    seating_plan.insert(Poc::West, None);
+    seating_plan
+}
+
+pub fn update_player_seating_plan(game: &mut Game) {
+    let mut player_names = String::new();
+    read_msg(&mut player_names);
+    let mut iter = player_names.split_whitespace();
+    // don't try to store the borrowed &str, store a real String
+    let _ = &game
+        .seating_plan
+        .insert(Poc::North, iter.next().map(|s| s.to_string()));
+    let _ = &game
+        .seating_plan
+        .insert(Poc::South, iter.next().map(|s| s.to_string()));
+    let _ = &game
+        .seating_plan
+        .insert(Poc::East, iter.next().map(|s| s.to_string()));
+    let _ = &game
+        .seating_plan
+        .insert(Poc::West, iter.next().map(|s| s.to_string()));
 }
