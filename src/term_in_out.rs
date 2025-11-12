@@ -1,6 +1,20 @@
 use crate::types::{CardState, Game, Poc, Suit};
 use std::io;
 
+// legacy VT100 style dumb terminal constants
+const RST: &str = "\x1B[0m";
+const BOW: &str = "\x1B[30;107m";
+const BOLG: &str = "\x1B[30;47m";
+const ROW: &str = "\x1B[31;107m";
+const ROLG: &str = "\x1B[31;47m";
+const BODG: &str = "\x1B[30;100m";
+
+// unicode points for card suits
+const SPADE: &str = "\u{2660}";
+const HEART: &str = "\u{2665}";
+const DIAMOND: &str = "\u{2666}";
+const CLUB: &str = "\u{2663}";
+
 pub fn read_msg(s: &mut String) {
     io::stdin().read_line(s).expect("Failed to read line");
 }
@@ -47,7 +61,7 @@ fn get_card_ranks_as_string_array(arr: &[CardState; 52]) -> Vec<String> {
             //println!("hand_{:?}_{:?}: {:?}", poc, suit, hand_suit_ranks);
             let hand_suit_ranks_concat = hand_suit_ranks.concat();
             //println!("hand_{:?}_{:?}: {:?}", poc, suit, hand_suit_ranks_concat);
-            let ranks_padded_13 = format!("{:.<13}", hand_suit_ranks_concat);
+            let ranks_padded_13 = format!("{: <13}", hand_suit_ranks_concat);
             //println!("hand_{:?}_{:?}: {:?}", poc, suit, ranks_padded_13);
             v.push(ranks_padded_13);
         }
@@ -57,44 +71,109 @@ fn get_card_ranks_as_string_array(arr: &[CardState; 52]) -> Vec<String> {
 
 fn display_board(ranks: Vec<String>) {
     let mut lines: Vec<String> = Vec::new();
-    let line0 = format!("{:*<65}", "");
+    let line0 = format!("{}{: <65}{}", BOW, "", RST);
     lines.push(line0);
-    let line1 = format!("{:*<34}", "") + "S " + &ranks[0] + &format!("{:*<16}", "");
+    let line1 = 
+        format!("{}{: <34}{}", BOW, "", RST)
+        + &format!("{}{}{}{}{}", BOW, SPADE, " ", &ranks[0], RST)
+        + &format!("{}{: <16}{}", BOW, "", RST);
     lines.push(line1);
-    let line2 = format!("{:*<34}", "") + "H " + &ranks[1] + &format!("{:*<16}", "");
+    let line2 = format!("{}{: <34}{}", BOW, "", RST)
+        + &format!("{}{}{}{}{}{}", ROW, HEART, BOW, " ", &ranks[1], RST)
+        + &format!("{}{: <16}{}", BOW, "", RST);
     lines.push(line2);
-    let line3 = format!("{:*<34}", "") + "D " + &ranks[2] + &format!("{:*<16}", "");
+    let line3 = format!("{}{: <34}{}", BOW, "", RST)
+        + &format!("{}{}{}{}{}{}", ROW, DIAMOND, BOW," ", &ranks[2], RST)
+        + &format!("{}{: <16}{}", BOW, "", RST);
     lines.push(line3);
-    let line4 = format!("{:*<34}", "") + "C " + &ranks[3] + &format!("{:*<16}", "");
+    let line4 = format!("{}{: <34}{}", BOW, "", RST)
+        + &format!("{}{}{}{}{}", BOW, CLUB, " ", &ranks[3], RST)
+        + &format!("{}{: <16}{}", BOW, "", RST);
     lines.push(line4);
-    let line5 = format!("{:*<65}", "");
+    let line5 = 
+        format!("{}{: <33}{}", BOW, "", RST)
+        + &format!("{}{: <5}{}", BOLG, "", RST)
+        + &format!("{}{: <6}{}", BODG, "", RST)
+        + &format!("{}{: <5}{}", BOLG, "", RST)
+        + &format!("{}{: <16}{}", BOW, "", RST);
     lines.push(line5);
-    let line6 =
-        format!("{:*<18}", "") + "S " + &ranks[12] + &format!("{:*<16}", "") + " S " + &ranks[4];
+        let line6 = 
+        format!("{}{: <33}{}", BOW, "", RST)
+        + &format!("{}{: <5}{}", BOLG, "", RST)
+        + &format!("{}{: <6}{}", BODG, "", RST)
+        + &format!("{}{: <5}{}", BOLG, "", RST)
+        + &format!("{}{: <16}{}", BOW, "", RST);
     lines.push(line6);
-    let line7 =
-        format!("{:*<18}", "") + "H " + &ranks[13] + &format!("{:*<16}", "") + " H " + &ranks[5];
+    let line7 = format!("{}{: <18}{}", BOW, "", RST)
+        + &format!("{}{}{}{}{}", BOW, SPADE, " ", &ranks[12], RST)
+        + &format!("{}{: <1}{}", BOLG, "", RST)
+        + &format!("{}{: <14}{}", BODG, "", RST)
+        + &format!("{}{: <1}{}", BOLG, "", RST)
+        + &format!("{}{}{}{}{}{}", BOW, " ", SPADE, " ", &ranks[4], RST);
     lines.push(line7);
     let line8 =
-        format!("{:*<18}", "") + "D " + &ranks[14] + &format!("{:*<16}", "") + " D " + &ranks[6];
+        //format!("{:*<18}", "") + "H " + &ranks[13] + &format!("{:*<16}", "") + " H " + &ranks[5];
+        format!("{}{: <18}{}", BOW, "", RST)
+        + &format!("{}{}{}{}{}{}", ROW, HEART, BOW, " ", &ranks[13], RST)
+        + &format!("{}{: <1}{}", BOLG, "", RST)
+        + &format!("{}{: <6}{}", BODG, "", RST)
+        + &format!("{}{: <2}{}", BOLG, "", RST)
+        + &format!("{}{: <6}{}", BODG, "", RST)
+        + &format!("{}{: <1}{}", BOLG, "", RST)
+        + &format!("{}{}{}{}{}{}{}{}", BOW, " ", ROW, HEART, BOW," ", &ranks[5], RST);
     lines.push(line8);
-    let line9 =
-        format!("{:*<18}", "") + "C " + &ranks[15] + &format!("{:*<16}", "") + " C " + &ranks[7];
+    let line9 = format!("{}{: <18}{}", BOW, "", RST)
+        + &format!("{}{}{}{}{}{}", ROW, DIAMOND, BOW, " ", &ranks[14], RST)
+        + &format!("{}{: <1}{}", BOLG, "", RST)
+        + &format!("{}{: <14}{}", BODG, "", RST)
+        + &format!("{}{: <1}{}", BOLG, "", RST)
+        + &format!("{}{}{}{}{}{}{}{}", BOW, " ", ROW, DIAMOND, BOW, " ", &ranks[6], RST);
     lines.push(line9);
-    let line10 = format!("{:*<65}", "");
+    let line10 =
+        //format!("{:*<18}", "") + "C " + &ranks[15] + &format!("{:*<16}", "") + " C " + &ranks[7];
+        format!("{}{: <18}{}", BOW, "", RST)
+        + &format!("{}{}{}{}{}", BOW, CLUB, " ", &ranks[15], RST)
+        + &format!("{}{: <5}{}", BOLG, "", RST)
+        + &format!("{}{: <6}{}", BODG, "", RST)
+        + &format!("{}{: <5}{}", BOLG, "", RST)
+        + &format!("{}{}{}{}{}{}", BOW, " ", CLUB, " ", &ranks[7], RST);
     lines.push(line10);
-    let line11 = format!("{:*<34}", "") + "S " + &ranks[8] + &format!("{:*<16}", "");
+    let line11 = 
+        //format!("{}{: <65}{}", BOW, "", RST);
+        format!("{}{: <33}{}", BOW, "", RST)
+        + &format!("{}{: <5}{}", BOLG, "", RST)
+        + &format!("{}{: <6}{}", BODG, "", RST)
+        + &format!("{}{: <5}{}", BOLG, "", RST)
+        + &format!("{}{: <16}{}", BOW, "", RST);
     lines.push(line11);
-    let line12 = format!("{:*<34}", "") + "H " + &ranks[9] + &format!("{:*<16}", "");
+    let line12 = 
+        //format!("{:*<34}", "") + "S " + &ranks[8] + &format!("{:*<16}", "");
+        format!("{}{: <34}{}", BOW, "", RST)
+        + &format!("{}{}{}{}{}", BOW, SPADE, " ", &ranks[8], RST)
+        + &format!("{}{: <16}{}", BOW, "", RST);
     lines.push(line12);
-    let line13 = format!("{:*<34}", "") + "D " + &ranks[10] + &format!("{:*<16}", "");
+    let line13 = 
+        //format!("{:*<34}", "") + "H " + &ranks[9] + &format!("{:*<16}", "");
+        format!("{}{: <34}{}", BOW, "", RST)
+        + &format!("{}{}{}{}{}{}", ROW, HEART, BOW, " ", &ranks[9], RST)
+        + &format!("{}{: <16}{}", BOW, "", RST);
     lines.push(line13);
-    let line14 = format!("{:*<34}", "") + "C " + &ranks[11] + &format!("{:*<16}", "");
+    let line14 = 
+        //format!("{:*<34}", "") + "D " + &ranks[10] + &format!("{:*<16}", "");
+        format!("{}{: <34}{}", BOW, "", RST)
+        + &format!("{}{}{}{}{}{}", ROW, DIAMOND, BOW, " ", &ranks[10], RST)
+        + &format!("{}{: <16}{}", BOW, "", RST);
     lines.push(line14);
-    let line15 = format!("{:*<65}", "");
+    let line15 = 
+        //format!("{:*<34}", "") + "C " + &ranks[11] + &format!("{:*<16}", "");
+        format!("{}{: <34}{}", BOW, "", RST)
+        + &format!("{}{}{}{}{}", BOW, CLUB, " ", &ranks[11], RST)
+        + &format!("{}{: <16}{}", BOW, "", RST);
     lines.push(line15);
+    let line16 = format!("{}{: <65}{}", BOW, "", RST);
+    lines.push(line16);
 
-    for i in 0..16 {
+    for i in 0..17 {
         println!("{}", &lines[i]);
     }
 }
