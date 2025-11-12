@@ -83,8 +83,18 @@ fn display_board(ranks: Vec<String>) {
     lines.push(line9);
     let line10 = format!("{:*<65}", "");
     lines.push(line10);
+    let line11 = format!("{:*<34}", "") + "S " + &ranks[8] + &format!("{:*<16}", "");
+    lines.push(line11);
+    let line12 = format!("{:*<34}", "") + "H " + &ranks[9] + &format!("{:*<16}", "");
+    lines.push(line12);
+    let line13 = format!("{:*<34}", "") + "D " + &ranks[10] + &format!("{:*<16}", "");
+    lines.push(line13);
+    let line14 = format!("{:*<34}", "") + "C " + &ranks[11] + &format!("{:*<16}", "");
+    lines.push(line14);
+    let line15 = format!("{:*<65}", "");
+    lines.push(line15);
 
-    for i in 0..11 {
+    for i in 0..16 {
         println!("{}", &lines[i]);
     }
 }
