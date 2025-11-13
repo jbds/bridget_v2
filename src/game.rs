@@ -5,15 +5,14 @@ use crate::constants::{
     PACK_SIZE_U8,
 };
 use crate::random::{
-    create_player_seating_plan, get_array_u8_ordered, get_array_u8_shuffled, get_random_poc,
-    init_player_seating_plan, vec_to_array,
+    get_array_u8_ordered, get_array_u8_shuffled, get_random_poc, init_player_seating_plan,
+    vec_to_array,
 };
 use crate::types::{CardState, Deal, Game, Poc, Rank, Suit};
 
 /// populate the Game data structure with a player seating plan, an initial (random) dealer,
 /// and a shuffled pack of cards
 pub fn create_new_game_data_structure() -> Game {
-    //write_msg("New Game - Enter N,S,E,W players separated by space:");
     let seating_plan = init_player_seating_plan();
     let initial_dealer_poc = get_random_poc();
     let array_u8_ordered = get_array_u8_ordered();
@@ -69,11 +68,16 @@ pub fn create_new_game_data_structure() -> Game {
         bids: Vec::new(),
         pack_state: pack_state,
     };
-    // followed by a new game
-    let mut game = Game {
+    // followed by a new game instance
+    let game = Game {
         deals: vec![deal],
         initial_dealer: initial_dealer_poc,
         seating_plan: seating_plan,
     };
     game
+}
+
+/// for a new deal, we need to shuffle the pack
+pub fn shuffle_pack() -> Vec<CardState> {
+    Vec::new()
 }

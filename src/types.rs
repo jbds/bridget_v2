@@ -1,3 +1,4 @@
+use crate::term_in_out::read_msg;
 use std::collections::HashMap;
 
 /// At start of game, we need to ask for and store the 4 player names
@@ -18,7 +19,7 @@ pub enum Poc {
 }
 
 /// A bid level for suit or no trumps can range from 1 to 7
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum BidLevel {
     One = 1,
     Two,
@@ -31,7 +32,7 @@ pub enum BidLevel {
 
 /// A bid can be one of Level-Suit, Level-NoTrumps, Pass, Double, or Redouble
 #[repr(u8)]
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Bid {
     Club(BidLevel) = 7,
     Diamond(BidLevel) = 14,
@@ -105,7 +106,7 @@ impl CardState {
 
 /// A deal consists of the state of the 52 cards dealt together with
 /// the list of bids made at the auction
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Deal {
     pub bids: Vec<Bid>,
     pub pack_state: [CardState; 52],
@@ -113,9 +114,28 @@ pub struct Deal {
 
 /// An entire game of Chicago bridge consists of an arbitrary number of modulo 4
 /// deals together with the initial dealer and the seating plan
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Game {
     pub deals: Vec<Deal>,
     pub initial_dealer: Poc,
     pub seating_plan: HashMap<Poc, Option<Player>>,
+}
+
+impl Game {
+    pub fn update_seating_plan(self) -> Self {
+        let mut seating_plan = HashMap::new();
+        let mut player_names = String::new();
+        read_msg(&mut player_names);
+        let mut iter = player_names.split_whitespace();
+        // don't try to store the borrowed &str, store a real String
+        seating_plan.insert(Poc::North, iter.next().map(|s| s.to_string()));
+        seating_plan.insert(Poc::South, iter.next().map(|s| s.to_string()));
+        seating_plan.insert(Poc::East, iter.next().map(|s| s.to_string()));
+        seating_plan.insert(Poc::West, iter.next().map(|s| s.to_string()));
+        let game_updated = Game {
+            seating_plan: seating_plan,
+            ..self
+        };
+        game_updated
+    }
 }

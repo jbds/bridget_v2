@@ -54,21 +54,19 @@ pub fn init_player_seating_plan() -> HashMap<Poc, Option<Player>> {
     seating_plan
 }
 
-pub fn update_player_seating_plan(game: &mut Game) {
-    let mut player_names = String::new();
-    read_msg(&mut player_names);
-    let mut iter = player_names.split_whitespace();
-    // don't try to store the borrowed &str, store a real String
-    let _ = &game
-        .seating_plan
-        .insert(Poc::North, iter.next().map(|s| s.to_string()));
-    let _ = &game
-        .seating_plan
-        .insert(Poc::South, iter.next().map(|s| s.to_string()));
-    let _ = &game
-        .seating_plan
-        .insert(Poc::East, iter.next().map(|s| s.to_string()));
-    let _ = &game
-        .seating_plan
-        .insert(Poc::West, iter.next().map(|s| s.to_string()));
-}
+// pub fn update_player_seating_plan(game: Game) -> Game {
+//     let mut seating_plan = HashMap::new();
+//     let mut player_names = String::new();
+//     read_msg(&mut player_names);
+//     let mut iter = player_names.split_whitespace();
+//     // don't try to store the borrowed &str, store a real String
+//     seating_plan.insert(Poc::North, iter.next().map(|s| s.to_string()));
+//     seating_plan.insert(Poc::South, iter.next().map(|s| s.to_string()));
+//     seating_plan.insert(Poc::East, iter.next().map(|s| s.to_string()));
+//     seating_plan.insert(Poc::West, iter.next().map(|s| s.to_string()));
+//     let game2 = Game {
+//         seating_plan: seating_plan,
+//         ..game
+//     };
+//     game2
+// }
