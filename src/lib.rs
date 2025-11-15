@@ -21,19 +21,20 @@ pub fn run_game() {
     game_states.push(game.clone());
     display_game_cmd_line(&game);
     //println!("{:?}", game_states[0]);
-    write_msg("Welcome to Bridgetv2");
+    write_msg("Bridgetv2 Menu:\nqu = Quit, sp = Seating Plan, nd = New deal, 2s..ac = Card choice");
     let mut quit = false;
     while quit == false {
         let mut keyboard_string = String::new();
         read_msg(&mut keyboard_string);
-        match keyboard_string.as_str() {
+        let keypresses = keyboard_string.as_str().trim();
+        match keypresses {
             // Quit
-            "qu\n" => {
+            "qu" => {
                 println!("Goodbye!");
                 quit = true;
             }
             // Seating plan
-            "sp\n" => {
+            "sp" => {
                 println!(
                     "Please enter North, South, East and West player names separated by spaces"
                 );
@@ -43,14 +44,39 @@ pub fn run_game() {
                 display_game_cmd_line(&game);
             }
             // Current game state
-            "gs\n" => {
+            "gs" => {
                 println!("{:?}", &game);
             }
             // New Deal
-            "nd\n" => {
+            "nd" => {
                 println!("New deal");
             }
-            &_ => (),
+            &_ => match keypresses.chars().nth(0) {
+                Some('2'..='9' | 't' | 'j' | 'q' | 'k' | 'a') => {
+                    //2dprintln!("matched {}", &keypresses);
+                    match keypresses.chars().nth(1) {
+                        Some('c' | 'd' | 'h' | 's') => {
+                            //println!("matched 2 chrs: '{}'", keypresses);
+                            // TO DO - update game stae with discard
+                            display_game_cmd_line(&game);
+                        }
+                        Some(_) => {
+                            println!("Did not recognise your 2nd character in '{}'", &keypresses);
+                        }
+                        None => {
+                            println!(
+                                "Expected 2 characters, but only got '{}', please re-try",
+                                &keypresses
+                            );
+                        }
+                    }
+                }
+                Some(_) => println!(
+                    "Did not recognise your first character in '{}'",
+                    &keypresses
+                ),
+                None => (), // user pressed Enter key only
+            },
         }
     }
 }
