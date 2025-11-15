@@ -6,7 +6,7 @@ const RST: &str = "\x1B[0m";
 const BOW: &str = "\x1B[30;107m";
 const BOLG: &str = "\x1B[30;47m";
 const ROW: &str = "\x1B[31;107m";
-const ROLG: &str = "\x1B[31;47m";
+const _ROLG: &str = "\x1B[31;47m";
 const BODG: &str = "\x1B[30;100m";
 
 // unicode points for card suits
@@ -14,6 +14,14 @@ const SPADE: &str = "\u{2660}";
 const HEART: &str = "\u{2665}";
 const DIAMOND: &str = "\u{2666}";
 const CLUB: &str = "\u{2663}";
+
+// unicode points for box drawing characters
+const HZ: &str = "\u{2550}";
+const VT: &str = "\u{2551}";
+const TL: &str = "\u{2554}";
+const TR: &str = "\u{2557}";
+const BL: &str = "\u{255A}";
+const BR: &str = "\u{255D}";
 
 pub fn read_msg(s: &mut String) {
     io::stdin().read_line(s).expect("Failed to read line");
@@ -35,9 +43,7 @@ pub fn display_game_cmd_line(g: &Game) {
     //println!("deal_index_max: {}", deal_index_max);
     let deal_current = &g.deals.get(deal_index_max).unwrap().pack_state;
     let ranks_padded = get_card_ranks_as_string_array(deal_current);
-    println!("{:?}", &ranks_padded);
-    //println!("{}", &ranks_padded[0]);
-    // TO DO - create the virtual table on the terminal display
+    //println!("{:?}", &ranks_padded);
     display_board(ranks_padded);
 }
 
@@ -93,21 +99,21 @@ fn display_board(ranks: Vec<String>) {
     let line5 = 
         format!("{}{: <33}{}", BOW, "", RST)
         + &format!("{}{: <5}{}", BOLG, "", RST)
-        + &format!("{}{: <6}{}", BODG, "", RST)
+        + &format!("{}{}{}{}{}{}{}{}", BODG, TL, HZ, HZ, HZ, HZ, TR, RST)
         + &format!("{}{: <5}{}", BOLG, "", RST)
         + &format!("{}{: <16}{}", BOW, "", RST);
     lines.push(line5);
         let line6 = 
         format!("{}{: <33}{}", BOW, "", RST)
         + &format!("{}{: <5}{}", BOLG, "", RST)
-        + &format!("{}{: <6}{}", BODG, "", RST)
+        + &format!("{}{}{}{}{}{}{}{}", BODG, VT, " ", " ", " ", " ", VT, RST)
         + &format!("{}{: <5}{}", BOLG, "", RST)
         + &format!("{}{: <16}{}", BOW, "", RST);
     lines.push(line6);
     let line7 = format!("{}{: <18}{}", BOW, "", RST)
         + &format!("{}{}{}{}{}", BOW, SPADE, " ", &ranks[12], RST)
         + &format!("{}{: <1}{}", BOLG, "", RST)
-        + &format!("{}{: <14}{}", BODG, "", RST)
+        + &format!("{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}", BODG, TL, HZ, HZ, HZ, BL, HZ, HZ, HZ, TL, HZ, HZ, HZ, HZ, TR, RST)
         + &format!("{}{: <1}{}", BOLG, "", RST)
         + &format!("{}{}{}{}{}{}", BOW, " ", SPADE, " ", &ranks[4], RST);
     lines.push(line7);
@@ -116,16 +122,16 @@ fn display_board(ranks: Vec<String>) {
         format!("{}{: <18}{}", BOW, "", RST)
         + &format!("{}{}{}{}{}{}", ROW, HEART, BOW, " ", &ranks[13], RST)
         + &format!("{}{: <1}{}", BOLG, "", RST)
-        + &format!("{}{: <6}{}", BODG, "", RST)
+        + &format!("{}{}{}{}{}{}{}{}", BODG, VT, " ", " ", " ", " ", VT, RST)
         + &format!("{}{: <2}{}", BOLG, "", RST)
-        + &format!("{}{: <6}{}", BODG, "", RST)
+        + &format!("{}{}{}{}{}{}{}{}", BODG, VT, " ", " ", " ", " ", VT, RST)
         + &format!("{}{: <1}{}", BOLG, "", RST)
         + &format!("{}{}{}{}{}{}{}{}", BOW, " ", ROW, HEART, BOW," ", &ranks[5], RST);
     lines.push(line8);
     let line9 = format!("{}{: <18}{}", BOW, "", RST)
         + &format!("{}{}{}{}{}{}", ROW, DIAMOND, BOW, " ", &ranks[14], RST)
         + &format!("{}{: <1}{}", BOLG, "", RST)
-        + &format!("{}{: <14}{}", BODG, "", RST)
+        + &format!("{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}", BODG, BL, HZ, HZ, HZ, TL, HZ, HZ, HZ, HZ, TR, HZ, HZ, HZ, BR, RST)
         + &format!("{}{: <1}{}", BOLG, "", RST)
         + &format!("{}{}{}{}{}{}{}{}", BOW, " ", ROW, DIAMOND, BOW, " ", &ranks[6], RST);
     lines.push(line9);
@@ -134,7 +140,7 @@ fn display_board(ranks: Vec<String>) {
         format!("{}{: <18}{}", BOW, "", RST)
         + &format!("{}{}{}{}{}", BOW, CLUB, " ", &ranks[15], RST)
         + &format!("{}{: <5}{}", BOLG, "", RST)
-        + &format!("{}{: <6}{}", BODG, "", RST)
+        + &format!("{}{}{}{}{}{}{}{}", BODG, VT, " ", " ", " ", " ", VT, RST)
         + &format!("{}{: <5}{}", BOLG, "", RST)
         + &format!("{}{}{}{}{}{}", BOW, " ", CLUB, " ", &ranks[7], RST);
     lines.push(line10);
@@ -142,7 +148,7 @@ fn display_board(ranks: Vec<String>) {
         //format!("{}{: <65}{}", BOW, "", RST);
         format!("{}{: <33}{}", BOW, "", RST)
         + &format!("{}{: <5}{}", BOLG, "", RST)
-        + &format!("{}{: <6}{}", BODG, "", RST)
+        + &format!("{}{}{}{}{}{}{}{}", BODG, BL, HZ, HZ, HZ, HZ, BR, RST)
         + &format!("{}{: <5}{}", BOLG, "", RST)
         + &format!("{}{: <16}{}", BOW, "", RST);
     lines.push(line11);

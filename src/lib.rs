@@ -19,6 +19,7 @@ pub fn run_game() {
     let mut game_states: Vec<Game> = Vec::new();
     // looks like we will need to implement Clone for Game struct
     game_states.push(game.clone());
+    display_game_cmd_line(&game);
     //println!("{:?}", game_states[0]);
     write_msg("Welcome to Bridgetv2");
     let mut quit = false;
@@ -39,6 +40,7 @@ pub fn run_game() {
                 let game_updated = game.update_seating_plan();
                 game = game_updated;
                 game_states.push(game.clone());
+                display_game_cmd_line(&game);
             }
             // Current game state
             "gs\n" => {
@@ -50,6 +52,5 @@ pub fn run_game() {
             }
             &_ => (),
         }
-        //display_game_cmd_line(&game);
     }
 }

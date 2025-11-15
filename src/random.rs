@@ -1,6 +1,6 @@
 use crate::constants::PACK_SIZE;
 use crate::term_in_out::read_msg;
-use crate::types::{Game, Player, Poc};
+use crate::types::{Player, Poc};
 use rand::prelude::SliceRandom;
 use std::collections::HashMap;
 
