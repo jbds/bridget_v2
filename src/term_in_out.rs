@@ -4,10 +4,10 @@ use std::io;
 // legacy VT100 style dumb terminal constants
 const RST: &str = "\x1B[0m";
 const BOW: &str = "\x1B[30;107m";
-const BOLG: &str = "\x1B[30;47m";
+const BOLG: &str = "\x1B[30;100m";
 const ROW: &str = "\x1B[31;107m";
-const _ROLG: &str = "\x1B[31;47m";
-const BODG: &str = "\x1B[30;100m";
+const ROLG: &str = "\x1B[31;47m";
+const BODG: &str = "\x1B[30;47m";
 
 // unicode points for card suits
 const SPADE: &str = "\u{2660}";
@@ -106,7 +106,8 @@ fn display_board(ranks: Vec<String>) {
         let line6 = 
         format!("{}{: <33}{}", BOW, "", RST)
         + &format!("{}{: <5}{}", BOLG, "", RST)
-        + &format!("{}{}{}{}{}{}{}{}", BODG, VT, " ", " ", " ", " ", VT, RST)
+        //+ &format!("{}{}{}{}{}{}{}{}{}{}", BODG, VT, " ", "2", ROLG, HEART, BODG, " ", VT, RST)
+        + &format!("{}{}{}{}{}{}{}{}{}{}", BODG, VT, " ", "2", "", "H", "", " ", VT, RST)
         + &format!("{}{: <5}{}", BOLG, "", RST)
         + &format!("{}{: <16}{}", BOW, "", RST);
     lines.push(line6);
@@ -118,13 +119,14 @@ fn display_board(ranks: Vec<String>) {
         + &format!("{}{}{}{}{}{}", BOW, " ", SPADE, " ", &ranks[4], RST);
     lines.push(line7);
     let line8 =
-        //format!("{:*<18}", "") + "H " + &ranks[13] + &format!("{:*<16}", "") + " H " + &ranks[5];
         format!("{}{: <18}{}", BOW, "", RST)
         + &format!("{}{}{}{}{}{}", ROW, HEART, BOW, " ", &ranks[13], RST)
         + &format!("{}{: <1}{}", BOLG, "", RST)
-        + &format!("{}{}{}{}{}{}{}{}", BODG, VT, " ", " ", " ", " ", VT, RST)
+        //+ &format!("{}{}{}{}{}{}{}{}{}{}", BODG, VT, " ", "3", ROLG, DIAMOND, BODG, " ", VT, RST)
+        + &format!("{}{}{}{}{}{}{}{}{}{}", BODG, VT, " ", "3", "", "D", "", " ", VT, RST)
         + &format!("{}{: <2}{}", BOLG, "", RST)
-        + &format!("{}{}{}{}{}{}{}{}", BODG, VT, " ", " ", " ", " ", VT, RST)
+        //+ &format!("{}{}{}{}{}{}{}{}{}{}", BODG, VT, " ", "4", ROLG, DIAMOND, BODG, " ", VT, RST)
+        + &format!("{}{}{}{}{}{}{}{}{}{}", BODG, VT, " ", "4", "", "D", "", " ", VT, RST)
         + &format!("{}{: <1}{}", BOLG, "", RST)
         + &format!("{}{}{}{}{}{}{}{}", BOW, " ", ROW, HEART, BOW," ", &ranks[5], RST);
     lines.push(line8);
@@ -136,11 +138,11 @@ fn display_board(ranks: Vec<String>) {
         + &format!("{}{}{}{}{}{}{}{}", BOW, " ", ROW, DIAMOND, BOW, " ", &ranks[6], RST);
     lines.push(line9);
     let line10 =
-        //format!("{:*<18}", "") + "C " + &ranks[15] + &format!("{:*<16}", "") + " C " + &ranks[7];
         format!("{}{: <18}{}", BOW, "", RST)
         + &format!("{}{}{}{}{}", BOW, CLUB, " ", &ranks[15], RST)
         + &format!("{}{: <5}{}", BOLG, "", RST)
-        + &format!("{}{}{}{}{}{}{}{}", BODG, VT, " ", " ", " ", " ", VT, RST)
+        //+ &format!("{}{}{}{}{}{}{}{}{}{}", BODG, VT, " ", "5", ROLG, HEART, BODG, " ", VT, RST)
+        + &format!("{}{}{}{}{}{}{}{}{}{}", BODG, VT, " ", "5", "", "H", "", " ", VT, RST)
         + &format!("{}{: <5}{}", BOLG, "", RST)
         + &format!("{}{}{}{}{}{}", BOW, " ", CLUB, " ", &ranks[7], RST);
     lines.push(line10);
