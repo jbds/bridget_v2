@@ -1,4 +1,4 @@
-use crate::types::{CardState, Game, Poc, Suit};
+use crate::types::{CardState, Game, Poc, Suit, Rank};
 use std::io;
 
 // legacy VT100 style dumb terminal constants
@@ -183,5 +183,33 @@ fn display_board(ranks: Vec<String>) {
 
     for i in 0..17 {
         println!("{}", &lines[i]);
+    }
+}
+
+/// helper function to convert keypresses eg "2c" to tuple (TWO, CLUB)
+pub fn card_as_string_to_tuple(s: &str) -> (Rank, Suit) {
+    if s.len() != 2 {
+        panic!("card_as_string_to_tuple received unexpected string: '{}'", &s)
+    } else {
+        println!("s[0]: {:?}", &s.chars().nth(0));
+        println!("s[1]: {:?}", &s.chars().nth(1));
+        let rank = match &s.chars().nth(0) {
+            None => panic!("card_as_string_to_tuple missing rank"),
+            Some('2') => Rank::Two,
+            Some('3') => Rank::Three,
+            Some('4') => Rank::Four,
+            Some('5') => Rank::Five,
+            Some('6') => Rank::Six,
+            Some(_) => panic!("card_as_string_to_tuple unexpected first character"),
+        };
+        let suit = match &s.chars().nth(1) {
+            None => panic!("card_as_string_to_tuple missing suit"),
+            Some('c') => Suit::Club,
+            Some('d') => Suit::Diamond,
+            Some('h') => Suit::Heart,
+            Some('s') => Suit::Spade,
+            Some(_) => panic!("card_as_string_to_tuple unexpected second character"),
+        };
+        (rank, suit)
     }
 }

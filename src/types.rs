@@ -138,4 +138,22 @@ impl Game {
         };
         game_updated
     }
+
+    pub fn update_discard(self, rank: Rank, suit: Suit) -> Self {
+        println!("rank: {:?} suit: {:?}", &rank, &suit);
+        let index = self.deals.len() - 1;
+        println!("deal_index: {:?}", index);
+        let mut pack_state = self.deals[index].pack_state.clone();
+        let card: Vec<_> = pack_state
+            .into_iter()
+            .filter(|x| x.rank == rank && x.suit == suit)
+            .collect();
+        println!("{:?}", &card);
+        // how many discards already?
+        //let temp = pack_state.into_iter().fold(0, |acc, x.hand| acc + x);
+        //pack_state[0].discard =
+        //let game_updated = Game { deals: ..self };
+        //game_updated
+        self
+    }
 }

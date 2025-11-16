@@ -5,8 +5,8 @@
 //! Rust arrays are fixed length so can model the pack optimally.
 
 use crate::game::create_new_game_data_structure;
-use crate::term_in_out::{display_game_cmd_line, read_msg, write_msg};
-use crate::types::Game;
+use crate::term_in_out::{card_as_string_to_tuple, display_game_cmd_line, read_msg, write_msg};
+use crate::types::{Game, Rank, Suit};
 
 pub mod constants;
 pub mod game;
@@ -15,13 +15,7 @@ pub mod term_in_out;
 pub mod types;
 
 pub fn run_game() {
-    let mut game = create_new_game_data_structure();
-    let mut game_states: Vec<Game> = Vec::new();
-    // looks like we will need to implement Clone for Game struct
-    game_states.push(game.clone());
-    display_game_cmd_line(&game);
-    //println!("{:?}", game_states[0]);
-    write_msg("Bridgetv2 Menu:\nqu = Quit, sp = Seating Plan, nd = New deal, 2s..ac = Card choice");
+    let (mut game, mut game_states) = init_game();
     let mut quit = false;
     while quit == false {
         let mut keyboard_string = String::new();
@@ -58,6 +52,10 @@ pub fn run_game() {
                         Some('c' | 'd' | 'h' | 's') => {
                             //println!("matched 2 chrs: '{}'", keypresses);
                             // TO DO - update game stae with discard
+                            let (rank, suit) = card_as_string_to_tuple(keypresses);
+                            let game_updated = game.update_discard(rank, suit);
+                            game = game_updated;
+                            game_states.push(game.clone());
                             display_game_cmd_line(&game);
                         }
                         Some(_) => {
@@ -79,4 +77,15 @@ pub fn run_game() {
             },
         }
     }
+}
+
+fn init_game() -> (Game, Vec<Game>) {
+    let game = create_new_game_data_structure();
+    let mut game_states: Vec<Game> = Vec::new();
+    // looks like we will need to implement Clone for Game struct
+    game_states.push(game.clone());
+    display_game_cmd_line(&game);
+    //println!("{:?}", game_states[0]);
+    write_msg("Bridgetv2 Menu:\nqu = Quit, sp = Seating Plan, nd = New deal, 2s..ac = Card choice");
+    (game, game_states)
 }
