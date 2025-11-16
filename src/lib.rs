@@ -15,7 +15,7 @@ pub mod term_in_out;
 pub mod types;
 
 pub fn run_game() {
-    let (mut game, mut game_states) = init_game();
+    let (game, mut game_states) = init_game();
     let mut quit = false;
     while quit == false {
         let mut keyboard_string = String::new();
@@ -32,8 +32,9 @@ pub fn run_game() {
                 println!(
                     "Please enter North, South, East and West player names separated by spaces"
                 );
-                let game_updated = game.update_seating_plan();
-                game = game_updated;
+                let game_updated = game.clone().update_seating_plan();
+                // shadows previous game pointer
+                let game = game_updated;
                 game_states.push(game.clone());
                 display_game_cmd_line(&game);
             }
@@ -53,8 +54,8 @@ pub fn run_game() {
                             //println!("matched 2 chrs: '{}'", keypresses);
                             // TO DO - update game stae with discard
                             let (rank, suit) = card_as_string_to_tuple(keypresses);
-                            let game_updated = game.update_discard(rank, suit);
-                            game = game_updated;
+                            let game_updated = game.clone().update_discard(rank, suit);
+                            let game = game_updated;
                             game_states.push(game.clone());
                             display_game_cmd_line(&game);
                         }
