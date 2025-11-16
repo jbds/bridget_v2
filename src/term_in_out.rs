@@ -191,8 +191,8 @@ pub fn card_as_string_to_tuple(s: &str) -> (Rank, Suit) {
     if s.len() != 2 {
         panic!("card_as_string_to_tuple received unexpected string: '{}'", &s)
     } else {
-        println!("s[0]: {:?}", &s.chars().nth(0));
-        println!("s[1]: {:?}", &s.chars().nth(1));
+        //println!("s[0]: {:?}", &s.chars().nth(0));
+        //println!("s[1]: {:?}", &s.chars().nth(1));
         let rank = match &s.chars().nth(0) {
             None => panic!("card_as_string_to_tuple missing rank"),
             Some('2') => Rank::Two,

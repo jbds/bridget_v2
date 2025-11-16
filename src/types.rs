@@ -140,15 +140,29 @@ impl Game {
     }
 
     pub fn update_discard(self, rank: Rank, suit: Suit) -> Self {
-        println!("rank: {:?} suit: {:?}", &rank, &suit);
+        //println!("rank: {:?} suit: {:?}", &rank, &suit);
         let index = self.deals.len() - 1;
-        println!("deal_index: {:?}", index);
-        let mut pack_state = self.deals[index].pack_state.clone();
-        let card: Vec<_> = pack_state
+        //println!("deal_index: {:?}", index);
+        let pack_state = self.deals[index].pack_state.clone();
+        let pack_state_clone = pack_state.clone();
+        // count how many discards there have been for this deal
+        let cards_discarded: Vec<CardState> = pack_state
+            .into_iter()
+            .filter(|x| x.discard != None)
+            .collect();
+        let discard_index: u8 = cards_discarded.len().try_into().unwrap();
+        println!("discard_index: {}", &discard_index);
+        let card_to_update_as_vec: Vec<CardState> = pack_state_clone
             .into_iter()
             .filter(|x| x.rank == rank && x.suit == suit)
             .collect();
-        println!("{:?}", &card);
+        println!("{:?}", &card_to_update_as_vec);
+        let card_state_to_update = card_to_update_as_vec[0].clone();
+        let card_state_updated = CardState {
+            discard: Some(discard_index),
+            ..card_state_to_update
+        };
+        println!("card_state_updated: {:?}", &card_state_updated);
         // how many discards already?
         //let temp = pack_state.into_iter().fold(0, |acc, x.hand| acc + x);
         //pack_state[0].discard =
