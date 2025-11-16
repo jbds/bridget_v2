@@ -55,7 +55,7 @@ fn get_card_ranks_as_string_array(arr: &[CardState; 52]) -> Vec<String> {
         for suit in [Suit::Spade, Suit::Heart, Suit::Diamond, Suit::Club] {
             let mut hand_suit: Vec<_> = arr
                 .iter()
-                .filter(|card_state| card_state.hand == poc && card_state.suit == suit)
+                .filter(|card_state| card_state.hand == poc && card_state.suit == suit && card_state.discard == None)
                 .collect();
             hand_suit.sort();
             hand_suit.reverse();
