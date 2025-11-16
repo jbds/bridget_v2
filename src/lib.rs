@@ -6,7 +6,7 @@
 
 use crate::game::create_new_game_data_structure;
 use crate::term_in_out::{card_as_string_to_tuple, display_game_cmd_line, read_msg, write_msg};
-use crate::types::{Game, Rank, Suit};
+use crate::types::Game;
 
 pub mod constants;
 pub mod game;

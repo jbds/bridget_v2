@@ -141,33 +141,44 @@ impl Game {
 
     pub fn update_discard(self, rank: Rank, suit: Suit) -> Self {
         //println!("rank: {:?} suit: {:?}", &rank, &suit);
-        let index = self.deals.len() - 1;
+        let deals_index = self.deals.len() - 1;
         //println!("deal_index: {:?}", index);
-        let pack_state = self.deals[index].pack_state.clone();
+        let pack_state = self.deals[deals_index].pack_state.clone();
         let pack_state_clone = pack_state.clone();
+        let mut pack_state_updated = pack_state.clone();
         // count how many discards there have been for this deal
         let cards_discarded: Vec<CardState> = pack_state
             .into_iter()
             .filter(|x| x.discard != None)
             .collect();
         let discard_index: u8 = cards_discarded.len().try_into().unwrap();
-        println!("discard_index: {}", &discard_index);
+        //println!("discard_index: {}", &discard_index);
         let card_to_update_as_vec: Vec<CardState> = pack_state_clone
             .into_iter()
             .filter(|x| x.rank == rank && x.suit == suit)
             .collect();
-        println!("{:?}", &card_to_update_as_vec);
+        //println!("{:?}", &card_to_update_as_vec);
         let card_state_to_update = card_to_update_as_vec[0].clone();
         let card_state_updated = CardState {
             discard: Some(discard_index),
             ..card_state_to_update
         };
         println!("card_state_updated: {:?}", &card_state_updated);
-        // how many discards already?
-        //let temp = pack_state.into_iter().fold(0, |acc, x.hand| acc + x);
-        //pack_state[0].discard =
-        //let game_updated = Game { deals: ..self };
-        //game_updated
-        self
+        // update just one card in the pack, identified by its index field
+        pack_state_updated[card_state_to_update.index] = card_state_updated;
+        //println!("pack updated: {:?}", &pack_state_updated);
+        let deal_updated = Deal {
+            pack_state: pack_state_updated,
+            ..self.deals[deals_index].clone()
+        };
+        //println!("deal updated: {:?}", &deal_updated);
+        let mut deals_updated = self.deals.clone();
+        deals_updated[deals_index] = deal_updated;
+        //println!("deals updated: {:?}", &deals_updated);
+        let game_updated = Game {
+            deals: deals_updated,
+            ..self
+        };
+        game_updated
     }
 }

@@ -200,6 +200,14 @@ pub fn card_as_string_to_tuple(s: &str) -> (Rank, Suit) {
             Some('4') => Rank::Four,
             Some('5') => Rank::Five,
             Some('6') => Rank::Six,
+            Some('7') => Rank::Seven,
+            Some('8') => Rank::Eight,
+            Some('9') => Rank::Nine,
+            Some('t') => Rank::Ten,
+            Some('j') => Rank::Jack,
+            Some('q') => Rank::Queen,
+            Some('k') => Rank::King,
+            Some('a') => Rank::Ace,
             Some(_) => panic!("card_as_string_to_tuple unexpected first character"),
         };
         let suit = match &s.chars().nth(1) {
